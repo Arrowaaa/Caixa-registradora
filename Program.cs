@@ -140,7 +140,7 @@ namespace Loja
         static void ComprarProduto()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\n COMPRAR PRODUTO: ");
 
             Console.Write("\n Valor da compra: R$ ");
@@ -153,7 +153,7 @@ namespace Loja
         static void GerarRelatorio()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine("\n RELATÓRIO DE PRODUTOS: ");
             ListarProdutos();
 
