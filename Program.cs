@@ -100,7 +100,7 @@ namespace Loja
             if (escolha >= 0 && escolha < produtos.Count)
             {
                 Produto produto = produtos[escolha];
-                Console.Write("\nQuantidade de " + produto.Nome + " a ser vendida: ");
+                Console.Write("\n Quantidade de " + produto.Nome + " a ser vendida: ");
                 int quantidadeVendida = int.Parse(Console.ReadLine());
 
                 if (quantidadeVendida <= produto.Quantidade)
@@ -127,7 +127,7 @@ namespace Loja
                 }
                 else
                 {
-                    Console.WriteLine($"Quantidade insuficiente de {produto.Nome} em estoque.");
+                    Console.WriteLine(" Quantidade insuficiente de " + produto.Nome + " em estoque.");
                 }
             }
             else
