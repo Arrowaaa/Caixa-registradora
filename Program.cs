@@ -63,7 +63,7 @@ namespace Loja
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\nCADASTRAR PRODUTO: ");
+            Console.WriteLine("\n CADASTRAR PRODUTO: ");
 
             Console.Write("\n Nome do Produto: ");
             string nome = Console.ReadLine();
@@ -71,7 +71,7 @@ namespace Loja
             Console.Write("\n Marca do Produto: ");
             string marca = Console.ReadLine();
 
-            Console.Write("\n Preço do Produto: ");
+            Console.Write("\n Preço do Produto: RS: ");
             double preco = double.Parse(Console.ReadLine());
 
             Console.Write("\n Quantidade do Produto: ");
@@ -88,8 +88,8 @@ namespace Loja
         static void VenderProduto()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("VENDER PRODUTO: ");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(" VENDA DE PRODUTO: ");
 
             Console.WriteLine("\n Lista de Produtos Disponíveis:");
             ListarProdutos();
@@ -106,7 +106,7 @@ namespace Loja
                 if (quantidadeVendida <= produto.Quantidade)
                 {
                     double valorTotal = quantidadeVendida * produto.Preco;
-                    Console.WriteLine("\nTotal a pagar: R$ " + valorTotal);
+                    Console.WriteLine("\n Total a pagar: R$: " + valorTotal + "Reais. ");
 
                     Console.Write("\n Digite o valor pago: ");
                     double valorPago = double.Parse(Console.ReadLine());
@@ -114,15 +114,15 @@ namespace Loja
                     if (valorPago >= valorTotal)
                     {
                         double troco = valorPago - valorTotal;
-                        Console.WriteLine("Troco: R$ " + troco);
+                        Console.WriteLine(" Troco: R$: " + troco + "Reais. ");
 
                         produto.Quantidade -= quantidadeVendida; // Atualizar estoque
                         saldo += valorTotal; // Atualizar saldo
-                        Console.WriteLine("Venda concluída com sucesso!");
+                        Console.WriteLine(" Venda concluída com sucesso!");
                     }
                     else
                     {
-                        Console.WriteLine("Valor insuficiente para a compra.");
+                        Console.WriteLine(" Valor insuficiente para a compra.");
                     }
                 }
                 else
@@ -132,7 +132,7 @@ namespace Loja
             }
             else
             {
-                Console.WriteLine("\nProduto não encontrado.");
+                Console.WriteLine("\n Produto não encontrado.");
             }
             
         }
@@ -140,13 +140,25 @@ namespace Loja
         static void ComprarProduto()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
             Console.WriteLine("\n COMPRAR PRODUTO: ");
 
-            Console.Write("\n Valor da compra: R$ ");
-            double valorCompra = double.Parse(Console.ReadLine());
+            Console.Write("\n Nome do Produto: ");
+            string nome = Console.ReadLine();
 
-            saldo -= valorCompra; // Atualizar saldo
+            Console.Write("\n Marca do Produto: ");
+            string marca = Console.ReadLine();
+
+            Console.Write("\n Preço do Produto: RS: ");
+            double preco = double.Parse(Console.ReadLine());
+
+            Console.Write("\n Quantidade do Produto: ");
+            int quantidade = int.Parse(Console.ReadLine());
+
+            Produto novoProduto = new Produto(nome, marca, preco, quantidade);
+            produtos.Add(novoProduto);
+
+            saldo -= (preco * quantidade); // Atualizar saldo
             Console.WriteLine("\n Compra realizada com sucesso!");
         }
 
@@ -154,10 +166,10 @@ namespace Loja
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("\n RELATÓRIO DE PRODUTOS: ");
+            Console.WriteLine("\n RELATÓRIO: ");
             ListarProdutos();
 
-            Console.WriteLine("\n Saldo Total: R$ " + saldo);
+            Console.WriteLine("\n Saldo Total de R$: " + saldo + "Reais.");
         }
 
         static void ListarProdutos()
@@ -170,15 +182,22 @@ namespace Loja
         }
     }
 
-    class Produto
-    {
-        public string Nome { get; set; }
-        public string Marca { get; set; }
-        public double Preco { get; set; }
-        public int Quantidade { get; set; }
-
-        public Produto(string nome, string marca, double preco, int quantidade)
+        class Produto
         {
+            
+        
+            public int NumeroSerie { get; private set; }
+            public string Nome { get; set; }
+            public string Marca { get; set; }
+            public double Preco { get; set; }
+            public int Quantidade { get; set; }
+
+            private static int proximoNumeroSerie = 1;
+
+            public Produto(string nome, string marca, double preco, int quantidade)
+        {
+            
+            NumeroSerie = proximoNumeroSerie++;
             Nome = nome;
             Marca = marca;
             Preco = preco;
