@@ -1,207 +1,221 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Loja
+namespace correcao
 {
-    class Program
+    internal class Program
     {
-        static List<Produto> produtos = new List<Produto>();
-        static double saldo = 0;
-
         static void Main(string[] args)
         {
+            string produto = "", marca = "";
+            float preco = 0;
+            double compra1, compra2, compra3, valor1 = 5, valor2 = 6, valor3 = 3;
+            double valorpago1, valorpago2, valorpago3, troco1, troco2, troco3, precototal, precototal2, precototal3;
+            int menu, quantidade2 = 10, quantidade3 = 10;
+            string produto1 = "Coxinha", produto2 = "Pão", produto3 = "Suco";
+            int quantidade = 0;
+            string loop = "s";
+            string loop2 = "s";
+            float saldo = 0; // Saldo total inicial
+
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine("\r\n ____  _  ____  _____  _____ _      ____    ____  ____    ____  _____ _          _  ____  ____  ____ \r\n/ ___\\/ \\/ ___\\/__ __\\/  __// \\__/|/  _ \\  /  _ \\/  _ \\  / ___\\/  __// \\ /\\     / |/  _ \\/  _ \\/  _ \\\r\n|    \\| ||    \\  / \\  |  \\  | |\\/||| / \\|  | | \\|| / \\|  |    \\|  \\  | | ||     | || / \\|| / \\|| / \\|\r\n\\___ || |\\___ |  | |  |  /_ | |  ||| |-||  | |_/|| \\_/|  \\___ ||  /_ | \\_/|  /\\_| || \\_/|| |-||| \\_/|\r\n\\____/\\_/\\____/  \\_/  \\____\\\\_/  \\|\\_/ \\|  \\____/\\____/  \\____/\\____\\\\____/  \\____/\\____/\\_/ \\|\\____/\r\n                                                                                                     \r\n");
-            
+            Console.ResetColor();
 
-            while (true)
+            while (loop == "s")
             {
-                MostrarMenu();
-                int escolha = int.Parse(Console.ReadLine());
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
 
-                switch (escolha)
+                Console.WriteLine("Welcome Sr.");
+                Console.WriteLine("MENU: ");
+                Console.WriteLine("1 - Cadastrar novo Produto: ");
+                Console.WriteLine("2 - Realizar venda de produto: ");
+                Console.WriteLine("3 - Realizar compra de produto: ");
+                Console.WriteLine("4 - Gerar relatório do produto: ");
+                Console.Write("Escolha a Opção: ");
+                menu = int.Parse(Console.ReadLine());
+                Console.Clear();
+
+                if (menu == 1)
                 {
-                    case 1:
-                        CadastrarProduto();
-                        break;
-                    case 2:
-                        VenderProduto();
-                        break;
-                    case 3:
-                        ComprarProduto();
-                        break;
-                    case 4:
-                        GerarRelatorio();
-                        break;
-                    case 5:
-                        Environment.Exit(0); // Sair do programa
-                        break;
-                    default:
-                        Console.WriteLine("Opção inválida. Tente novamente.");
-                        break;
+                    while (loop2 == "s")
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+                        Console.WriteLine("\n CADASTRAR: ");
+
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("\n Qual é o Produto que deseja cadastrar? ");
+                        produto = Console.ReadLine();
+
+                        Console.Write("\n Qual a marca do produto ? ");
+                        marca = Console.ReadLine();
+
+                        Console.Write("\n Qual é o preço do produto ? ");
+                        preco = float.Parse(Console.ReadLine());
+
+                        Console.Write("\n Qual é a quantidade do produto ? ");
+                        quantidade = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("\nO produto cadastrado foi: ");
+                        Console.WriteLine("Produto: " + produto);
+                        Console.WriteLine("Marca: " + marca);
+                        Console.WriteLine("Quantidade: " + quantidade);
+                        Console.WriteLine("Preço: " + preco);
+
+                        Console.Write("Deseja Fazer um novo cadastro ? (s/n) ");
+                        loop2 = Console.ReadLine();
+                        Console.Clear();
+                    }
                 }
-            }
-        }
-
-        static void MostrarMenu()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("\nMENU: ");
-            Console.WriteLine("\n 1 - Cadastrar novo Produto");
-            Console.WriteLine(" 2 - Realizar venda de produto");
-            Console.WriteLine(" 3 - Realizar compra de produto");
-            Console.WriteLine(" 4 - Gerar relatório do produto");
-            Console.WriteLine(" 5 - Sair do programa");
-            Console.Write("\nEscolha a Opção: ");
-            
-        }
-
-        static void CadastrarProduto()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n CADASTRAR PRODUTO: ");
-
-            Console.Write("\n Nome do Produto: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("\n Marca do Produto: ");
-            string marca = Console.ReadLine();
-
-            Console.Write("\n Preço do Produto: RS: ");
-            double preco = double.Parse(Console.ReadLine());
-
-            Console.Write("\n Quantidade do Produto: ");
-            int quantidade = int.Parse(Console.ReadLine());
-
-            Produto novoProduto = new Produto(nome, marca, preco, quantidade);
-            produtos.Add(novoProduto);
-
-            Console.WriteLine("\n Produto cadastrado com sucesso!");
-            
-        }
-        
-
-        static void VenderProduto()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine(" VENDA DE PRODUTO: ");
-
-            Console.WriteLine("\n Lista de Produtos Disponíveis:");
-            ListarProdutos();
-
-            Console.Write("\n Escolha o número do produto a ser vendido: ");
-            int escolha = int.Parse(Console.ReadLine()) - 1;
-
-            if (escolha >= 0 && escolha < produtos.Count)
-            {
-                Produto produto = produtos[escolha];
-                Console.Write("\n Quantidade de " + produto.Nome + " a ser vendida: ");
-                int quantidadeVendida = int.Parse(Console.ReadLine());
-
-                if (quantidadeVendida <= produto.Quantidade)
+                else if (menu == 2)
                 {
-                    double valorTotal = quantidadeVendida * produto.Preco;
-                    Console.WriteLine("\n Total a pagar: R$: " + valorTotal + "Reais. ");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("VENDER: ");
 
-                    Console.Write("\n Digite o valor pago: ");
-                    double valorPago = double.Parse(Console.ReadLine());
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.Write("\nInforme o valor da venda (1 - " + produto1 + ", 2 - " + produto2 + ", 3 - " + produto3 + "): ");
+                    float valorVenda = float.Parse(Console.ReadLine());
 
-                    if (valorPago >= valorTotal)
+                    int formaPagamento;
+
+                    if (valorVenda == 1)
                     {
-                        double troco = valorPago - valorTotal;
-                        Console.WriteLine(" Troco: R$: " + troco + "Reais. ");
+                        Console.WriteLine("\n Produto: " + produto1 + "\n Valor: " + valor1);
+                        Console.Write("\nQual é a quantidade de " + produto1 + ": ");
+                        compra1 = double.Parse(Console.ReadLine());
 
-                        produto.Quantidade -= quantidadeVendida; // Atualizar estoque
-                        saldo += valorTotal; // Atualizar saldo
-                        Console.WriteLine(" Venda concluída com sucesso!");
+                        Console.Write("Escolha a forma de pagamento (1 - Dinheiro, 2 - Cartão, 3 - Outra): ");
+                        formaPagamento = int.Parse(Console.ReadLine());
+
+                        if (compra1 <= quantidade)
+                        {
+                            precototal = compra1 * valor1;
+                            Console.WriteLine("Valor total a pagar: R$: " + precototal + " Reais.");
+
+                            Console.WriteLine("\nQual o valor recebido? ");
+                            valorpago1 = double.Parse(Console.ReadLine());
+
+                            if (valorpago1 < precototal)
+                            {
+                                Console.WriteLine("Valor Insuficiente!");
+                            }
+                            else if (valorpago1 > precototal)
+                            {
+                                troco1 = valorpago1 - precototal;
+                                Console.WriteLine("Seu troco: " + troco1);
+                            }
+                            else if (valorpago1 == precototal)
+                            {
+                                Console.WriteLine("Compra Finalizada!");
+                            }
+                        }
                     }
-                    else
+                    else if (valorVenda == 2)
                     {
-                        Console.WriteLine(" Valor insuficiente para a compra.");
+                        Console.WriteLine("\n Produto: " + produto2 + "\n Valor: " + valor2);
+                        Console.Write("\nQual é a quantidade de " + produto2 + ": ");
+                        compra2 = double.Parse(Console.ReadLine());
+
+                        Console.Write("Escolha a forma de pagamento (1 - Dinheiro, 2 - Cartão, 3 - Outra): ");
+                        formaPagamento = int.Parse(Console.ReadLine());
+
+                        if (compra2 <= quantidade2)
+                        {
+                            precototal2 = compra2 * valor2;
+                            Console.WriteLine("Valor total a pagar: R$: " + precototal2 + " Reais.");
+
+                            Console.WriteLine("\nQual o valor recebido? ");
+                            valorpago2 = double.Parse(Console.ReadLine());
+
+                            if (valorpago2 < precototal2)
+                            {
+                                Console.WriteLine("Valor Insuficiente!");
+                            }
+                            else if (valorpago2 > precototal2)
+                            {
+                                troco2 = valorpago2 - precototal2;
+                                Console.WriteLine("Seu troco " + troco2);
+                            }
+                            else if (valorpago2 == precototal2)
+                            {
+                                Console.WriteLine("Compra Finalizada!");
+                            }
+                        }
                     }
+                    else if (valorVenda == 3)
+                    {
+                        Console.WriteLine("\n Produto: " + produto3 + "\n Valor: " + valor3);
+                        Console.Write("\nQual é a quantidade de " + produto3 + ": ");
+                        compra3 = double.Parse(Console.ReadLine());
+
+                        Console.Write("Escolha a forma de pagamento (1 - Dinheiro, 2 - Cartão, 3 - Outra): ");
+                        formaPagamento = int.Parse(Console.ReadLine());
+
+                        if (compra3 <= quantidade3)
+                        {
+                            precototal3 = compra3 * valor3;
+                            Console.WriteLine("Valor total a pagar: R$: " + precototal3 + " Reais.");
+
+                            Console.WriteLine("\nQual o valor recebido? ");
+                            valorpago3 = double.Parse(Console.ReadLine());
+
+                            if (valorpago3 < precototal3)
+                            {
+                                Console.WriteLine("Valor Insuficiente!");
+                            }
+                            else if (valorpago3 > precototal3)
+                            {
+                                troco3 = valorpago3 - precototal3;
+                                Console.WriteLine("Seu troco " + troco3);
+                            }
+                            else if (valorpago3 == precototal3)
+                            {
+                                Console.WriteLine("Compra Finalizada!");
+                            }
+                        }
+                    }
+                }
+                else if (menu == 3)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("COMPRAR: ");
+
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.Write("Informe o valor da compra: ");
+                    float valorCompra = float.Parse(Console.ReadLine());
+
+                    // Realize a lógica de compra aqui
+                    quantidade++; // Aumente a quantidade de produtos
+                    saldo += valorCompra; // Atualize o saldo
+                    Console.WriteLine("Compra realizada com sucesso!");
+                }
+                else if (menu == 4)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine("Você Escolheu gerar um Relatório do Produto: ");
+
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine("Produto: " + produto);
+                    Console.WriteLine("Marca: " + marca);
+                    Console.WriteLine("Estoque: " + quantidade);
+                    Console.WriteLine("Valor: " + preco);
+                    Console.WriteLine("Saldo total: " + saldo);
                 }
                 else
                 {
-                    Console.WriteLine(" Quantidade insuficiente de " + produto.Nome + " em estoque.");
+                    Console.WriteLine("Opção inválida. Escolha uma opção válida do menu.");
                 }
+
+                Console.Write("Deseja Regressar ao MENU? (s/n) ");
+                loop = Console.ReadLine();
+                Console.Clear();
             }
-            else
-            {
-                Console.WriteLine("\n Produto não encontrado.");
-            }
-            
-        }
-
-        static void ComprarProduto()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("\n COMPRAR PRODUTO: ");
-
-            Console.Write("\n Nome do Produto: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("\n Marca do Produto: ");
-            string marca = Console.ReadLine();
-
-            Console.Write("\n Preço do Produto: RS: ");
-            double preco = double.Parse(Console.ReadLine());
-
-            Console.Write("\n Quantidade do Produto: ");
-            int quantidade = int.Parse(Console.ReadLine());
-
-            Produto novoProduto = new Produto(nome, marca, preco, quantidade);
-            produtos.Add(novoProduto);
-
-            saldo -= (preco * quantidade); // Atualizar saldo
-            Console.WriteLine("\n Compra realizada com sucesso!");
-        }
-
-        static void GerarRelatorio()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("\n RELATÓRIO: ");
-            ListarProdutos();
-
-            Console.WriteLine("\n Saldo Total de R$: " + saldo + "Reais.");
-        }
-
-        static void ListarProdutos()
-        {
-            for (int i = 0; i < produtos.Count; i++)
-            {
-                Console.WriteLine((i + 1) + ". " + produtos[i].Nome + " - Marca: " + produtos[i].Marca + " - Preço: R$ " + produtos[i].Preco.ToString("F2") + " - Estoque: " + produtos[i].Quantidade);
-
-            }
-        }
-    }
-
-        class Produto
-        {
-            
-        
-            public int NumeroSerie { get; private set; }
-            public string Nome { get; set; }
-            public string Marca { get; set; }
-            public double Preco { get; set; }
-            public int Quantidade { get; set; }
-
-            private static int proximoNumeroSerie = 1;
-
-            public Produto(string nome, string marca, double preco, int quantidade)
-        {
-            
-            NumeroSerie = proximoNumeroSerie++;
-            Nome = nome;
-            Marca = marca;
-            Preco = preco;
-            Quantidade = quantidade;
         }
     }
 }
+
+    
